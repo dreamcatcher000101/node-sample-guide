@@ -1,0 +1,17 @@
+# dependencies
+node_modules
+client/node_modules
+server/node_modules
+
+# testing
+
+# production
+
+# lock
+package-lock.json
+
+# prettier
+./prettierrc
+
+# images
+images
