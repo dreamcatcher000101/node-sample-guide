@@ -1,17 +1,15 @@
-// node_modules
-import express, { Request, Response } from "express";
+// setups
+import { databaseSetup, backendSetup } from "./setups";
 
-// config
-import { PORT } from "./config";
+// setup function
+const setup = async () => {
+  try {
+    await databaseSetup();
+    backendSetup();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// Messages
-import { MESSAGES } from "./consts";
-
-const app = express();
-app.listen(PORT, () => {
-  console.info(MESSAGES.SERVER.STARTING_SUCCESS);
-
-  app.get("/", (req: Request, res: Response) => {
-    res.send("Application works!");
-  });
-});
+// setup server
+setup();
