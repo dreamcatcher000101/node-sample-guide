@@ -4,7 +4,7 @@
   "scripts": {
     "start": "npm run server:dev",
     "server:dev": "cross-env NODE_ENV=development nodemon src/index.ts",
-    "server:prod": "cross-env NODE_ENV=production nodemon src/index.ts",
+    "server:prod": "cross-env NODE_ENV=production ts-node src/index.ts",
     "build": "npx tsc"
   },
   "dependencies": {
