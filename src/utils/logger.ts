@@ -32,8 +32,7 @@ class ServerLogger {
   private log(...descriptions: string[]) {
     if (Env.isProduction()) {
       this.fileLogger.log("info", ...descriptions);
-    }
-    if (Env.isDevelopment()) {
+    } else {
       console.log(...descriptions);
     }
   }
@@ -42,8 +41,7 @@ class ServerLogger {
   info(description: string) {
     if (Env.isProduction()) {
       this.fileLogger.info(description);
-    }
-    if (Env.isDevelopment()) {
+    } else {
       console.info(description);
     }
   }
@@ -52,8 +50,7 @@ class ServerLogger {
   error(description: string) {
     if (Env.isProduction()) {
       this.fileLogger.error(description);
-    }
-    if (Env.isDevelopment()) {
+    } else {
       console.error(description);
     }
   }
@@ -62,8 +59,7 @@ class ServerLogger {
   fatal(description: string) {
     if (Env.isProduction()) {
       this.fileLogger.fatal(description);
-    }
-    if (Env.isDevelopment()) {
+    } else {
       console.error(description);
     }
   }
