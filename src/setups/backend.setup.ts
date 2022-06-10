@@ -5,6 +5,9 @@ import cors from "cors";
 // routes
 import routes from "../routes";
 
+// middlewares
+import { routeMiddleware } from "../middlewares";
+
 // consts
 import { MESSAGES } from "../consts";
 
@@ -21,6 +24,9 @@ const backendSetup = () => {
 
   // use express.json middleware
   app.use(express.json());
+
+  // use customized route logger middleware
+  app.use(routeMiddleware);
 
   // use routes
   app.use(`/api/${ROUTE_VERSION}/`, routes);
