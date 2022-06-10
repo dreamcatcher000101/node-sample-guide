@@ -1,4 +1,5 @@
 // logger
 import Logger from "./logger";
+import Env from "./env.handler";
 
-export { Logger };
+export { Logger, Env };

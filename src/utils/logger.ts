@@ -2,12 +2,16 @@
 import path from "path";
 import { Logger } from "logger";
 
-// group log type
+// utils
+import Env from "./env.handler";
+
+// group description type
 type DescriptionInfo = {
   description: string;
   info: any;
 };
 
+// group log type
 type GroupLog = {
   title: string;
   descriptions: DescriptionInfo[];
@@ -26,26 +30,42 @@ class ServerLogger {
 
   // log
   private log(...descriptions: string[]) {
-    this.fileLogger.log("info", ...descriptions);
-    console.log(...descriptions);
+    if (Env.isProduction()) {
+      this.fileLogger.log("info", ...descriptions);
+    }
+    if (Env.isDevelopment()) {
+      console.log(...descriptions);
+    }
   }
 
   // log information
   info(description: string) {
-    this.fileLogger.info(description);
-    console.info(description);
+    if (Env.isProduction()) {
+      this.fileLogger.info(description);
+    }
+    if (Env.isDevelopment()) {
+      console.info(description);
+    }
   }
 
   // log error
   error(description: string) {
-    this.fileLogger.error(description);
-    console.error(description);
+    if (Env.isProduction()) {
+      this.fileLogger.error(description);
+    }
+    if (Env.isDevelopment()) {
+      console.error(description);
+    }
   }
 
   // log fatal
   fatal(description: string) {
-    this.fileLogger.fatal(description);
-    console.error(description);
+    if (Env.isProduction()) {
+      this.fileLogger.fatal(description);
+    }
+    if (Env.isDevelopment()) {
+      console.error(description);
+    }
   }
 
   // log group

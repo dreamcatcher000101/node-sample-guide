@@ -2,7 +2,9 @@
   "name": "server",
   "version": "0.1.0",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "npm run server:dev",
+    "server:dev": "cross-env NODE_ENV=development nodemon src/index.ts",
+    "server:prod": "cross-env NODE_ENV=production nodemon src/index.ts",
     "build": "npx tsc"
   },
   "dependencies": {
@@ -10,6 +12,7 @@
     "@types/logger": "^0.0.1",
     "@types/mongoose": "^5.11.97",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "logger": "^0.0.1",
     "mongoose": "^6.3.6"

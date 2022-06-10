@@ -12,10 +12,10 @@ import { routeMiddleware } from "../middlewares";
 import { MESSAGES } from "../consts";
 
 // config
-import { PORT, ROUTE_VERSION } from "../config";
+import { ROUTE_VERSION } from "../config";
 
 // utils
-import { Logger } from "../utils";
+import { Logger, Env } from "../utils";
 
 // backend setup
 const backendSetup = () => {
@@ -34,7 +34,8 @@ const backendSetup = () => {
   // use routes
   app.use(`/api/${ROUTE_VERSION}/`, routes);
 
-  app.listen(PORT, () => {
+  // run server
+  app.listen(Env.getEnvironmentVariable("PORT"), () => {
     Logger.info(MESSAGES.SERVER.STARTING_SUCCESS);
   });
 };
