@@ -14,6 +14,9 @@ import { MESSAGES } from "../consts";
 // config
 import { PORT, ROUTE_VERSION } from "../config";
 
+// utils
+import { Logger } from "../utils";
+
 // backend setup
 const backendSetup = () => {
   // create express app instance
@@ -32,7 +35,7 @@ const backendSetup = () => {
   app.use(`/api/${ROUTE_VERSION}/`, routes);
 
   app.listen(PORT, () => {
-    console.info(MESSAGES.SERVER.STARTING_SUCCESS);
+    Logger.info(MESSAGES.SERVER.STARTING_SUCCESS);
   });
 };
 

@@ -2,25 +2,34 @@
 import { Request, Response, NextFunction } from "express";
 
 // config
-const { DEBUG } = require("../config");
+import { DEBUG } from "../config";
+
+// utils
+import { Logger } from "../utils";
 
 const routeMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (DEBUG.REQUEST_SHOW) {
-    console.group("/----------------New Request---------------/");
-    if (DEBUG.URL) {
-      console.log("URL:", `${req.protocol}://${req.hostname}${req.url}`);
-    }
-    if (DEBUG.PARAMS) {
-      console.log("PARAMS:", req.params);
-    }
-    if (DEBUG.QUERY) {
-      console.log("QUERY:", req.query);
-    }
-    if (DEBUG.BODY) {
-      console.log("BODY:", req.body);
-    }
-    console.groupEnd();
-    console.log("/---------------That's all----------------/");
+    Logger.group({
+      title: "New Request",
+      descriptions: [
+        {
+          description: "URL",
+          info: `${req.protocol}://${req.hostname}${req.url}`,
+        },
+        {
+          description: "PARAMS",
+          info: req.params,
+        },
+        {
+          description: "QUERY",
+          info: req.query,
+        },
+        {
+          description: "BODY",
+          info: req.body,
+        },
+      ],
+    });
   }
 
   next();

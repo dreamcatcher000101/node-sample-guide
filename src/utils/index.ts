@@ -1,1 +1,4 @@
-export * from "./error.handler";
+// logger
+import Logger from "./logger";
+
+export { Logger };

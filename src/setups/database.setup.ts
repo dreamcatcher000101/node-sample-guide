@@ -7,6 +7,9 @@ import { DATABASES } from "../config";
 // consts
 import { MESSAGES } from "../consts";
 
+// utils
+import { Logger } from "../utils";
+
 const databaseSetup = async () => {
   return new Promise((resolve, reject) => {
     mongoose
@@ -14,11 +17,10 @@ const databaseSetup = async () => {
       .then(() => {
         resolve(null);
 
-        console.log(MESSAGES.DATABASE.CONNECTION_SUCCESS);
+        Logger.info(MESSAGES.DATABASE.CONNECTION_SUCCESS);
       })
       .catch((error) => {
-        console.log(MESSAGES.DATABASE.CONNECTION_FAILURE);
-        console.log(error.message);
+        Logger.info(MESSAGES.DATABASE.CONNECTION_SUCCESS);
 
         reject(error);
       });
