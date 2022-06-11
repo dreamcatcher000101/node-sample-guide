@@ -7,13 +7,14 @@ import { JWT_SECRET, JWT_EXPIRE } from "../../config";
 
 interface IUser {
   fullname?: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 interface IUserAuthJSON {
   fullname: string;
   email: string;
+  token: string;
 }
 
 interface IUserModel extends Document, IUser {
@@ -30,7 +31,7 @@ const UserSchema: Schema = new Schema<IUserModel>({
   fullname: { type: String, required: true, minlength: 6 },
   email: { type: String, required: true },
   password: { type: String, required: true, select: false },
-  createdAt: { type: Date, required: true },
+  createdAt: { type: Date },
   updatedAt: { type: Date },
   deletedAt: { type: Date },
 });

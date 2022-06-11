@@ -11,7 +11,7 @@ import { ROUTE_VERSION } from "../config";
 
 import { Logger, Env } from "../utils";
 
-const backendSetup = () => {
+const setupBackend = () => {
   const app: Express = express();
 
   // middlewares
@@ -27,4 +27,4 @@ const backendSetup = () => {
   });
 };
 
-export default backendSetup;
+export default setupBackend;

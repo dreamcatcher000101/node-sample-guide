@@ -1,4 +1,4 @@
-import { databaseSetup, backendSetup } from "./setups";
+import { setupDatabase, setupBackend } from "./setups";
 
 import { MESSAGES } from "./consts";
 
@@ -9,7 +9,7 @@ const setupServer = async () => {
   Env.init();
 
   try {
-    await databaseSetup();
+    await setupDatabase();
     Logger.info(MESSAGES.DATABASE.CONNECTION_SUCCESS);
   } catch (error: any) {
     Logger.info(MESSAGES.DATABASE.CONNECTION_FAILURE);
@@ -17,7 +17,7 @@ const setupServer = async () => {
   }
 
   try {
-    await backendSetup();
+    await setupBackend();
   } catch (error: any) {
     Logger.info(MESSAGES.SERVER.STARTING_FAILURE);
     Logger.error(error);

@@ -1,4 +1,5 @@
-import databaseSetup from "./database.setup";
-import backendSetup from "./backend.setup";
+import setupDatabase from "./database.setup";
+import setupBackend from "./backend.setup";
+import setupTestDB from "./testDB.setup";
 
-export { databaseSetup, backendSetup };
+export { setupDatabase, setupBackend, setupTestDB };
