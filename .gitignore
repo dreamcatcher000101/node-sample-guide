@@ -4,9 +4,12 @@ client/node_modules
 server/node_modules
 
 # environment
-.env
+.env.development
+.env.production
+.env.test
 
 # testing
+coverage
 
 # production
 

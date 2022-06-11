@@ -3,7 +3,11 @@ import fs from "fs";
 import path from "path";
 
 class Env {
-  private requiredKeys = ["PORT", "MONGODB_URL"];
+  private requiredKeys: any = {
+    development: ["PORT", "MONGODB_URL"],
+    production: ["PORT", "MONGODB_URL"],
+    test: [],
+  };
 
   init() {
     // get the NODE_ENV variable from environment variables
@@ -25,7 +29,10 @@ class Env {
     });
 
     // get a list of keys that are not in .env but are required in this.requiredKeys
-    const missingKeys = this.requiredKeys.filter((key) => {
+    const requiredKeys: string[] = this.requiredKeys[this.getEnvironment()]
+      ? this.requiredKeys[this.getEnvironment()]
+      : [];
+    const missingKeys = requiredKeys.filter((key) => {
       const variable = this.getEnvironmentVariable(key);
       if (!variable) {
         return true;

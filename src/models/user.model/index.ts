@@ -1,10 +1,4 @@
-import {
-  model,
-  Schema,
-  Model,
-  Document,
-  PreSaveMiddlewareFunction,
-} from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 
 interface IUser extends Document {
   fullName: string;
