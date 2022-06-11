@@ -9,7 +9,7 @@ const setupTestDB = () => {
     await mongoose.connect(Env.getEnvironmentVariable("MONGODB_URL"));
   });
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await Promise.all(
       Object.values(mongoose.connection.collections).map(async (collection) =>
         collection.deleteMany({})

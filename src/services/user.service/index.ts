@@ -27,5 +27,5 @@ export const deleteUser = async (userId: Types.ObjectId) => {
 };
 
 export const readCertainUser = async (userId: Types.ObjectId) => {
-  return UserModel.findOne({ _id: userId });
+  return UserModel.findOne({ _id: userId, deletedAt: null });
 };

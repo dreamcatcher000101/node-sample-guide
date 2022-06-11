@@ -56,7 +56,7 @@ class ServerLogger {
   group(groupDescription: GroupLog) {
     this.info(`/---------- ${groupDescription.title} ----------/`);
     groupDescription.descriptions.forEach((description: DescriptionInfo) => {
-      this.log("\t", description.description, ":", description.info);
+      this.log(description.description, ":", description.info);
     });
     this.info(`/---------- End ----------/`);
   }
