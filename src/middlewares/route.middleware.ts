@@ -1,7 +1,5 @@
-// node_modules
 import { Request, Response, NextFunction } from "express";
 
-// utils
 import { Logger, Env } from "../utils";
 
 const routeMiddleware = (req: Request, res: Response, next: NextFunction) => {

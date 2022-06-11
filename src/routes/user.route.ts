@@ -1,10 +1,7 @@
-// node_modules
 import express from "express";
 
-// controllers
 import { userController } from "../controllers";
 
-// get router instance
 const router = express.Router();
 
 router.post("/user", userController.createUser);

@@ -1,8 +1,3 @@
-// models
-import UserModel, { IUser } from "./user.model";
+import UserModel from "./user.model";
 
-// export models
 export { UserModel };
-
-// export interfaces
-export { IUser };
