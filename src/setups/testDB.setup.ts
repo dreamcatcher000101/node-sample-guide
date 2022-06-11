@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import Env from "../utils/env.handler";
 
-const testDBSetup = () => {
+const setupTestDB = () => {
   beforeAll(async () => {
     Env.init();
 
@@ -22,4 +22,4 @@ const testDBSetup = () => {
   });
 };
 
-export default testDBSetup;
+export default setupTestDB;

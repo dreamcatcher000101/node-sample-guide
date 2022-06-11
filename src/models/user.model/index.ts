@@ -21,7 +21,6 @@ interface IUserModel extends Document, IUser {
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  setPassword(password: string): void;
   validatePassword(password: string): void;
   generateJWT(): string;
   toAuthJSON(): IUserAuthJSON;
@@ -31,9 +30,9 @@ const UserSchema: Schema = new Schema<IUserModel>({
   fullname: { type: String, required: true, minlength: 6 },
   email: { type: String, required: true },
   password: { type: String, required: true, select: false },
-  createdAt: { type: Date },
-  updatedAt: { type: Date },
-  deletedAt: { type: Date },
+  createdAt: { type: Date, select: false },
+  updatedAt: { type: Date, select: false },
+  deletedAt: { type: Date, select: false },
 });
 
 UserSchema.pre("save", function (next) {
@@ -43,13 +42,12 @@ UserSchema.pre("save", function (next) {
     this.createdAt = new Date();
   }
 
+  if (this.isModified("password")) {
+    this.password = bcrypt.hashSync(this.password, 10);
+  }
+
   next();
 });
-
-UserSchema.methods.setPassword = function (password: string) {
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  this.password = hashedPassword;
-};
 
 UserSchema.methods.validatePassword = function (password: string): boolean {
   return bcrypt.compareSync(password, this.password);

@@ -45,8 +45,9 @@ describe("User Model", () => {
 
   it("should validate the password", async () => {
     const user = new UserModel(newUser);
-    await user.setPassword("password");
-    await expect(user.validatePassword("password")).toBeTruthy();
+    await user.save();
+    expect(user.password).not.toEqual(newUser.password);
+    expect(user.validatePassword(String(newUser.password))).toBeTruthy();
   });
 
   it("should genereate json web token", async () => {

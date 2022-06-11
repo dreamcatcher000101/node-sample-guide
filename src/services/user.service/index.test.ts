@@ -2,25 +2,53 @@ import { faker } from "@faker-js/faker";
 
 import setupTestDB from "../../setups/testDB.setup";
 
-import { createUser } from ".";
+import {
+  createUser,
+  readUsers,
+  updateUser,
+  deleteUser,
+  readCertainUser,
+} from ".";
 
 import { IUser } from "../../models";
 
 setupTestDB();
 
 describe("User Service", () => {
-  let newUser: IUser;
+  let user: IUser;
 
   beforeEach(() => {
-    newUser = {
+    user = {
       fullname: faker.name.findName(),
       email: faker.internet.email(),
       password: faker.lorem.word(),
     };
   });
 
-  test("should create new user", async () => {
-    await expect(createUser(newUser)).resolves.not.toThrow();
-    await expect(createUser(newUser)).resolves.not.toThrow();
+  test("should create and return new user", async () => {
+    const newUser = await createUser(user);
+    expect(newUser).toHaveProperty("fullname");
+    expect(newUser).toHaveProperty("email");
+    expect(newUser.password).toBeUndefined();
+  });
+
+  test("should return filtered users", async () => {
+    const users = await readUsers({});
+    expect(users).toEqual([]);
+  });
+
+  test("should update and return updated user", async () => {
+    const newUser = await createUser(user);
+    const updatedUser = await updateUser(newUser._id, {
+      fullname: faker.name.findName(),
+    });
+    expect(updatedUser?.fullname).not.toEqual(newUser.fullname);
+  });
+
+  test("should delete user", async () => {
+    const newUser = await createUser(user);
+    await deleteUser(newUser._id);
+    const users = await readUsers({});
+    expect(users).toHaveLength(0);
   });
 });
