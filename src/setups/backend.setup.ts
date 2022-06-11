@@ -3,7 +3,7 @@ import express, { Express } from "express";
 
 import routes from "../routes";
 
-import { routeMiddleware } from "../middlewares";
+import { routeMiddleware, errorHandlerMiddleware } from "../middlewares";
 
 import { MESSAGES } from "../consts";
 
@@ -21,6 +21,9 @@ const setupBackend = () => {
 
   // routes
   app.use(`/api/${ROUTE_VERSION}/`, routes);
+
+  // middlewares
+  app.use(errorHandlerMiddleware);
 
   app.listen(Env.getEnvironmentVariable("PORT"), () => {
     Logger.info(MESSAGES.SERVER.STARTING_SUCCESS);

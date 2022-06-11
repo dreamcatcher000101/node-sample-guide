@@ -1,37 +1,41 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
+import httpStatus from "http-status";
 
 import { userService } from "../../services";
 
 import { IUser } from "../../models";
 
-import { ResponseHandler } from "../../utils";
+import { MESSAGES } from "../../consts";
 
-export const createUser = async (req: Request, res: Response) => {
+import { APIError, ResponseHandler } from "../../utils";
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { fullname, email, password } = req.body;
     const userData: IUser = { fullname, email, password };
 
     const users = await userService.readUsers({ email });
     if (users.length) {
-      ResponseHandler.failure(res, {
-        status: 403,
-        description: "User email is existed! Please sign in!",
-      });
-      return;
+      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.EMAIL_EXIST);
     }
 
     const newUser = await userService.createUser(userData);
     ResponseHandler.success(res, { user: newUser });
   } catch (error) {
-    ResponseHandler.failure(res, {
-      status: 403,
-      description: "code",
-    });
+    next(error);
   }
 };
 
-export const readUsers = async (req: Request, res: Response) => {
+export const readUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { fullname, email } = req.query;
 
@@ -44,17 +48,23 @@ export const readUsers = async (req: Request, res: Response) => {
       users: filteredUsers,
     });
   } catch (error) {
-    ResponseHandler.failure(res, {
-      status: 403,
-      description: "code",
-    });
+    next(error);
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = new Types.ObjectId(req.params.id);
     const { fullname, email, password } = req.body;
+
+    const user = await userService.readCertainUser(userId);
+    if (!user) {
+      throw new APIError(httpStatus.NOT_FOUND, MESSAGES.USER.NOT_FOUND);
+    }
 
     let userData: IUser = {};
     if (fullname) userData.fullname = fullname;
@@ -64,45 +74,45 @@ export const updateUser = async (req: Request, res: Response) => {
     const updatedUser = await userService.updateUser(userId, userData);
     ResponseHandler.success(res, { user: updatedUser });
   } catch (error) {
-    ResponseHandler.failure(res, {
-      status: 403,
-      description: "code",
-    });
+    next(error);
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
-  try {
-    const userId = new Types.ObjectId(req.params.id);
-
-    await userService.deleteUser(userId);
-    ResponseHandler.success(res, {});
-  } catch (error) {
-    ResponseHandler.failure(res, {
-      status: 403,
-      description: "code",
-    });
-  }
-};
-
-export const readCertainUser = async (req: Request, res: Response) => {
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = new Types.ObjectId(req.params.id);
 
     const user = await userService.readCertainUser(userId);
     if (!user) {
-      ResponseHandler.failure(res, {
-        status: 403,
-        description: "code",
-      });
-      return;
+      throw new APIError(httpStatus.NOT_FOUND, MESSAGES.USER.NOT_FOUND);
+    }
+
+    await userService.deleteUser(userId);
+    ResponseHandler.success(res, {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const readCertainUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = new Types.ObjectId(req.params.id);
+
+    const user = await userService.readCertainUser(userId);
+    if (!user) {
+      throw new APIError(httpStatus.NOT_FOUND, MESSAGES.USER.NOT_FOUND);
     }
 
     ResponseHandler.success(res, { user });
   } catch (error) {
-    ResponseHandler.failure(res, {
-      status: 403,
-      description: "code",
-    });
+    next(error);
   }
 };

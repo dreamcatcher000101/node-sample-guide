@@ -14,16 +14,18 @@ type GroupLog = {
 };
 
 class ServerLogger {
-  private fileLogger: Logger;
+  private fileLogger?: Logger;
 
   constructor() {
-    const loggerFilePath = path.join(__dirname, "../../logs/server.log");
-    this.fileLogger = new Logger(loggerFilePath);
+    if (Env.isProduction()) {
+      const loggerFilePath = path.join(__dirname, "../../logs/server.log");
+      this.fileLogger = new Logger(loggerFilePath);
+    }
   }
 
-  private log(...descriptions: string[]) {
+  log(...descriptions: string[]) {
     if (Env.isProduction()) {
-      this.fileLogger.log("info", ...descriptions);
+      this.fileLogger?.log("info", ...descriptions);
     } else {
       console.log(...descriptions);
     }
@@ -31,7 +33,7 @@ class ServerLogger {
 
   info(description: string) {
     if (Env.isProduction()) {
-      this.fileLogger.info(description);
+      this.fileLogger?.info(description);
     } else {
       console.info(description);
     }
@@ -39,7 +41,7 @@ class ServerLogger {
 
   error(description: string) {
     if (Env.isProduction()) {
-      this.fileLogger.error(description);
+      this.fileLogger?.error(description);
     } else {
       console.error(description);
     }
@@ -47,7 +49,7 @@ class ServerLogger {
 
   fatal(description: string) {
     if (Env.isProduction()) {
-      this.fileLogger.fatal(description);
+      this.fileLogger?.fatal(description);
     } else {
       console.error(description);
     }
