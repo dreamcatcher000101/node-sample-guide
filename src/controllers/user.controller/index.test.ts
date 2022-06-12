@@ -13,7 +13,7 @@ setupTestDB();
 
 describe("User Route Endpoints", () => {
   let user: IUser;
-  let fakeUserID: string = "111111111111111111111111";
+  let fakeUserID: string = "000000000000000000000000";
 
   beforeEach(() => {
     user = {

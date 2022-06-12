@@ -24,7 +24,7 @@ export const updateUser = async (userId: Types.ObjectId, userData: any) => {
 };
 
 export const deleteUser = async (userId: Types.ObjectId) => {
-  await UserModel.updateOne({ _id: userId }, { deletedAt: new Date() });
+  return await UserModel.updateOne({ _id: userId }, { deletedAt: new Date() });
 };
 
 export const readCertainUser = async (userId: Types.ObjectId) => {

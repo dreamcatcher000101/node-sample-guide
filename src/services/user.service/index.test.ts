@@ -1,8 +1,15 @@
 import { faker } from "@faker-js/faker";
+import { Types } from "mongoose";
 
 import setupTestDB from "../../setups/testDB.setup";
 
-import { createUser, readUsers, updateUser, deleteUser } from ".";
+import {
+  createUser,
+  readUsers,
+  updateUser,
+  deleteUser,
+  readEmailUserWithPassword,
+} from ".";
 
 import { IUser } from "../../models";
 
@@ -10,6 +17,7 @@ setupTestDB();
 
 describe("User Service", () => {
   let user: IUser;
+  const userId: Types.ObjectId = new Types.ObjectId("000000000000000000000000");
 
   beforeEach(() => {
     user = {
@@ -33,17 +41,19 @@ describe("User Service", () => {
   });
 
   test("should update and return updated user", async () => {
-    const newUser = await createUser(user);
-    const updatedUser = await updateUser(newUser._id, {
+    const updatedUser = await updateUser(userId, {
       fullname: faker.name.findName(),
     });
-    expect(updatedUser?.fullname).not.toEqual(newUser.fullname);
+    expect(updatedUser).toBeNull();
   });
 
   test("should delete user", async () => {
-    const newUser = await createUser(user);
-    await deleteUser(newUser._id);
-    const users = await readUsers({});
-    expect(users).toHaveLength(0);
+    const result = await deleteUser(userId);
+    expect(result.modifiedCount).toEqual(0);
+  });
+
+  test("should return user with ", async () => {
+    const emailUser = await readEmailUserWithPassword(String(user.email));
+    expect(emailUser).toBeNull();
   });
 });
