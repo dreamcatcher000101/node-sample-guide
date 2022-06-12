@@ -30,3 +30,14 @@ export const deleteUser = async (userId: Types.ObjectId) => {
 export const readCertainUser = async (userId: Types.ObjectId) => {
   return UserModel.findOne({ _id: userId, deletedAt: null });
 };
+
+export const readEmailUserWithPassword = async (email: string) => {
+  return UserModel.findOne(
+    { email, deletedAt: null },
+    {
+      fullname: 1,
+      email: 1,
+      password: 1,
+    }
+  );
+};

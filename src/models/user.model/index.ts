@@ -12,8 +12,10 @@ interface IUser {
 }
 
 interface IUserAuthJSON {
-  fullname: string;
-  email: string;
+  user: {
+    fullname: string;
+    email: string;
+  };
   token: string;
 }
 
@@ -21,7 +23,7 @@ interface IUserModel extends Document, IUser {
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  validatePassword(password: string): void;
+  validatePassword(password: string): boolean;
   generateJWT(): string;
   toAuthJSON(): IUserAuthJSON;
 }
@@ -55,6 +57,8 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.validatePassword = function (password: string): boolean {
+  console.log("password:", password);
+  console.log("hash password:", this.password);
   return bcrypt.compareSync(password, this.password);
 };
 
@@ -74,8 +78,10 @@ UserSchema.methods.generateJWT = function (): string {
 
 UserSchema.methods.toAuthJSON = function () {
   return {
-    fullname: this.fullname,
-    email: this.email,
+    user: {
+      fullname: this.fullname,
+      email: this.email,
+    },
     token: this.generateJWT(),
   };
 };

@@ -24,7 +24,7 @@ describe("User Route Endpoints", () => {
   });
 
   describe("POST /user : create new user", () => {
-    it("should return created user with OK status", async () => {
+    test("should return created user with OK status", async () => {
       const res = await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -35,7 +35,7 @@ describe("User Route Endpoints", () => {
       expect(res.body.user).toHaveProperty("email");
     });
 
-    it(`should return BAD_REQUEST status if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
+    test(`should return BAD_REQUEST status if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
       user.fullname = new Array(DATABASE.USER.MIN_FULLNAME - 1)
         .fill("0")
         .join("");
@@ -45,7 +45,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    it(`should return BAD_REQUEST status if fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
+    test(`should return BAD_REQUEST status if fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
       user.fullname = new Array(DATABASE.USER.MAX_FULLNAME + 1)
         .fill("0")
         .join("");
@@ -55,7 +55,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    it("should return BAD_REQUEST status if email is existed", async () => {
+    test("should return BAD_REQUEST status if email is existed", async () => {
       await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -76,7 +76,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.OK);
     });
 
-    it("should return all users with OK status", async () => {
+    test("should return all users with OK status", async () => {
       let res = await request(App)
         .get("/api/v1/users/user")
         .expect(httpStatus.OK);
@@ -87,7 +87,7 @@ describe("User Route Endpoints", () => {
       expect(filteredUser.email).toEqual(user.email);
     });
 
-    it("should return filtered users with OK status", async () => {
+    test("should return filtered users with OK status", async () => {
       const wrongFullname = user.fullname + "wrong";
       const res = await request(App)
         .get(`/api/v1/users/user?fullname=${wrongFullname}`)
@@ -95,7 +95,7 @@ describe("User Route Endpoints", () => {
       expect(res.body.users).toHaveLength(0);
     });
 
-    it(`should return BAD_REQUEST when search fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
+    test(`should return BAD_REQUEST when search fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
       const longFullname = new Array(DATABASE.USER.MAX_FULLNAME + 1)
         .fill("a")
         .join("");
@@ -106,7 +106,7 @@ describe("User Route Endpoints", () => {
   });
 
   describe("PUT /user : update user", () => {
-    it("should return updated user with OK status", async () => {
+    test("should return updated user with OK status", async () => {
       let res = await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -127,7 +127,7 @@ describe("User Route Endpoints", () => {
       expect(res.body.user.password).not.toEqual(updatedUser.password);
     });
 
-    it("should return BAD_REQUEST status when user id is not validated", async () => {
+    test("should return BAD_REQUEST status when user id is not validated", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .put("/api/v1/users/user/1")
@@ -135,7 +135,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    it("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id is not existed", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .put(`/api/v1/users/user/${fakeUserID}`)
@@ -145,7 +145,7 @@ describe("User Route Endpoints", () => {
   });
 
   describe("DELETE /user : delete user", () => {
-    it("should return OK status", async () => {
+    test("should return OK status", async () => {
       let res = await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -156,13 +156,13 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.OK);
     });
 
-    it("should return BAD_REQUEST status when user id is not validated", async () => {
+    test("should return BAD_REQUEST status when user id is not validated", async () => {
       await request(App)
         .delete("/api/v1/users/user/1")
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    it("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id is not existed", async () => {
       await request(App)
         .delete(`/api/v1/users/user/${fakeUserID}`)
         .expect(httpStatus.NOT_FOUND);
@@ -170,7 +170,7 @@ describe("User Route Endpoints", () => {
   });
 
   describe("GET /user/:id : read certain user", () => {
-    it("should return user data with OK status", async () => {
+    test("should return user data with OK status", async () => {
       let res = await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -184,7 +184,7 @@ describe("User Route Endpoints", () => {
       expect(res.body.user.email).toEqual(user.email);
     });
 
-    it("should return BAD_REQUEST status when user id is not validated", async () => {
+    test("should return BAD_REQUEST status when user id is not validated", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .get("/api/v1/users/user/1")
@@ -192,7 +192,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    it("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id is not existed", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .get(`/api/v1/users/user/${fakeUserID}`)

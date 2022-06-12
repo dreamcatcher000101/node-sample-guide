@@ -23,7 +23,7 @@ describe("User Model", () => {
     await expect(new UserModel(newUser).validate()).resolves.not.toThrow();
   });
 
-  it("should throw a validation error if any required field is empty", async () => {
+  test("should throw a validation error if any required field is empty", async () => {
     delete newUser.fullname;
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
     newUser.fullname = "";
@@ -40,34 +40,34 @@ describe("User Model", () => {
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
   });
 
-  it(`should throw a validation error if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
+  test(`should throw a validation error if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
     newUser.fullname = new Array(DATABASE.USER.MIN_FULLNAME - 1)
       .fill("1")
       .join("");
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
   });
 
-  it(`should throw a validation error if fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
+  test(`should throw a validation error if fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
     newUser.fullname = new Array(DATABASE.USER.MAX_FULLNAME + 1)
       .fill("1")
       .join("");
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
   });
 
-  it("should validate the password", async () => {
+  test("should validate the password", async () => {
     const user = new UserModel(newUser);
     await user.save();
     expect(user.password).not.toEqual(newUser.password);
     expect(user.validatePassword(String(newUser.password))).toBeTruthy();
   });
 
-  it("should genereate json web token", async () => {
+  test("should genereate json web token", async () => {
     const user = new UserModel(newUser);
     const authJSON = user.toAuthJSON();
     await expect(authJSON.token).toBeDefined();
   });
 
-  it("should fill createdAt & updatedAt", async () => {
+  test("should fill createdAt & updatedAt", async () => {
     const user = new UserModel(newUser);
     await user.save();
     await expect(user.createdAt).toBeDefined();
