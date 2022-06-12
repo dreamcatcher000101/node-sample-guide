@@ -29,10 +29,21 @@ describe("User Route Endpoints", () => {
         .post("/api/v1/users/user")
         .send({ ...user })
         .expect(httpStatus.OK);
-      expect(res.body).toHaveProperty("user");
       expect(res.body.user).toHaveProperty("_id");
-      expect(res.body.user).toHaveProperty("fullname");
-      expect(res.body.user).toHaveProperty("email");
+      expect(res.body.user.fullname).toEqual(user.fullname);
+      expect(res.body.user.email).toEqual(user.email);
+    });
+
+    test("should return BAD_REQUEST status if email exists", async () => {
+      await request(App)
+        .post("/api/v1/users/user")
+        .send({ ...user })
+        .expect(httpStatus.OK);
+
+      await request(App)
+        .post("/api/v1/users/user")
+        .send({ ...user })
+        .expect(httpStatus.BAD_REQUEST);
     });
 
     test(`should return BAD_REQUEST status if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
@@ -49,18 +60,6 @@ describe("User Route Endpoints", () => {
       user.fullname = new Array(DATABASE.USER.MAX_FULLNAME + 1)
         .fill("0")
         .join("");
-      await request(App)
-        .post("/api/v1/users/user")
-        .send({ ...user })
-        .expect(httpStatus.BAD_REQUEST);
-    });
-
-    test("should return BAD_REQUEST status if email is existed", async () => {
-      await request(App)
-        .post("/api/v1/users/user")
-        .send({ ...user })
-        .expect(httpStatus.OK);
-
       await request(App)
         .post("/api/v1/users/user")
         .send({ ...user })
@@ -135,7 +134,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id does not exists", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .put(`/api/v1/users/user/${fakeUserID}`)
@@ -162,7 +161,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id does not exists", async () => {
       await request(App)
         .delete(`/api/v1/users/user/${fakeUserID}`)
         .expect(httpStatus.NOT_FOUND);
@@ -192,7 +191,7 @@ describe("User Route Endpoints", () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test("should return NOT_FOUND status when user id is not existed", async () => {
+    test("should return NOT_FOUND status when user id does not exists", async () => {
       const updatedFullname = user.fullname + "updated";
       await request(App)
         .get(`/api/v1/users/user/${fakeUserID}`)

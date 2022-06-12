@@ -57,8 +57,6 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.validatePassword = function (password: string): boolean {
-  console.log("password:", password);
-  console.log("hash password:", this.password);
   return bcrypt.compareSync(password, this.password);
 };
 

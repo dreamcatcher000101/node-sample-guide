@@ -30,8 +30,8 @@ describe("User Service", () => {
   test("should create and return new user", async () => {
     const newUser = await createUser(user);
     expect(newUser).toHaveProperty("_id");
-    expect(newUser).toHaveProperty("fullname");
-    expect(newUser).toHaveProperty("email");
+    expect(newUser.fullname).toEqual(user.fullname);
+    expect(newUser.email).toEqual(user.email);
     expect(newUser.password).toBeUndefined();
   });
 

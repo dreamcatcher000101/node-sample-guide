@@ -21,7 +21,7 @@ export const createUser = async (
 
     const users = await userService.readUsers({ email });
     if (users.length) {
-      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.EMAIL_EXIST);
+      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.EMAIL_EXISTS);
     }
 
     const newUser = await userService.createUser(userData);
