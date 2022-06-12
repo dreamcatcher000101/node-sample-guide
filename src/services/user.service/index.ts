@@ -7,6 +7,7 @@ export const createUser = async (userData: IUser) => {
   await newUser.save();
   const user = newUser.toJSON();
   delete user.password;
+  delete user.createdAt;
   return user;
 };
 

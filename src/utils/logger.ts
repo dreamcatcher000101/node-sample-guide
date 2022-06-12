@@ -24,34 +24,42 @@ class ServerLogger {
   }
 
   log(...descriptions: string[]) {
-    if (Env.isProduction()) {
-      this.fileLogger?.log("info", ...descriptions);
-    } else {
-      console.log(...descriptions);
+    if (!Env.isTest()) {
+      if (Env.isProduction()) {
+        this.fileLogger?.log("info", ...descriptions);
+      } else {
+        console.log(...descriptions);
+      }
     }
   }
 
   info(description: string) {
-    if (Env.isProduction()) {
-      this.fileLogger?.info(description);
-    } else {
-      console.info(description);
+    if (!Env.isTest()) {
+      if (Env.isProduction()) {
+        this.fileLogger?.info(description);
+      } else {
+        console.info(description);
+      }
     }
   }
 
   error(description: string) {
-    if (Env.isProduction()) {
-      this.fileLogger?.error(description);
-    } else {
-      console.error(description);
+    if (!Env.isTest()) {
+      if (Env.isProduction()) {
+        this.fileLogger?.error(description);
+      } else {
+        console.error(description);
+      }
     }
   }
 
   fatal(description: string) {
-    if (Env.isProduction()) {
-      this.fileLogger?.fatal(description);
-    } else {
-      console.error(description);
+    if (!Env.isTest()) {
+      if (Env.isProduction()) {
+        this.fileLogger?.fatal(description);
+      } else {
+        console.error(description);
+      }
     }
   }
 

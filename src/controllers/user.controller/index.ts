@@ -37,11 +37,17 @@ export const readUsers = async (
   next: NextFunction
 ) => {
   try {
-    const { fullname, email } = req.query;
+    const { fullname } = req.query;
+
+    if (fullname && (fullname as string).length > 30) {
+      throw new APIError(
+        httpStatus.BAD_REQUEST,
+        MESSAGES.USER.LONG_SEARCH_FULLNAME
+      );
+    }
 
     let searchData: any = {};
     if (fullname) searchData.fullname = new RegExp(String(fullname));
-    if (email) searchData.email = new RegExp(String(email));
 
     const filteredUsers = await userService.readUsers(searchData);
     ResponseHandler.success(res, {
@@ -58,6 +64,10 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.INVALID_ID);
+    }
+
     const userId = new Types.ObjectId(req.params.id);
     const { fullname, email, password } = req.body;
 
@@ -84,6 +94,10 @@ export const deleteUser = async (
   next: NextFunction
 ) => {
   try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.INVALID_ID);
+    }
+
     const userId = new Types.ObjectId(req.params.id);
 
     const user = await userService.readCertainUser(userId);
@@ -104,6 +118,10 @@ export const readCertainUser = async (
   next: NextFunction
 ) => {
   try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      throw new APIError(httpStatus.BAD_REQUEST, MESSAGES.USER.INVALID_ID);
+    }
+
     const userId = new Types.ObjectId(req.params.id);
 
     const user = await userService.readCertainUser(userId);

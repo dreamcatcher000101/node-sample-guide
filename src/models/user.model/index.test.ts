@@ -4,6 +4,8 @@ import setupTestDB from "../../setups/testDB.setup";
 
 import UserModel, { IUser } from ".";
 
+import { DATABASE } from "../../config";
+
 setupTestDB();
 
 describe("User Model", () => {
@@ -38,8 +40,17 @@ describe("User Model", () => {
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
   });
 
-  it("should throw a validation error if fullname is less than 6 characters", async () => {
-    newUser.fullname = "xxxxx";
+  it(`should throw a validation error if fullname is shorter than ${DATABASE.USER.MIN_FULLNAME} characters`, async () => {
+    newUser.fullname = new Array(DATABASE.USER.MIN_FULLNAME - 1)
+      .fill("1")
+      .join("");
+    await expect(new UserModel(newUser).validate()).rejects.toThrow();
+  });
+
+  it(`should throw a validation error if fullname is longer than ${DATABASE.USER.MAX_FULLNAME} characters`, async () => {
+    newUser.fullname = new Array(DATABASE.USER.MAX_FULLNAME + 1)
+      .fill("1")
+      .join("");
     await expect(new UserModel(newUser).validate()).rejects.toThrow();
   });
 

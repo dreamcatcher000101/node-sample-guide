@@ -4,7 +4,12 @@ import mongoose from "mongoose";
 
 import { APIError, ResponseHandler } from "../utils";
 
-const errorHandlerMiddleware = (err: any, req: Request, res: Response) => {
+const errorHandlerMiddleware = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let error = err;
   if (!(error instanceof APIError)) {
     const statusCode =

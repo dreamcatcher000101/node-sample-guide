@@ -11,7 +11,7 @@ import { ROUTE_VERSION } from "../config";
 
 import { Logger, Env } from "../utils";
 
-const setupBackend = () => {
+const createApp = () => {
   const app: Express = express();
 
   // middlewares
@@ -25,9 +25,17 @@ const setupBackend = () => {
   // middlewares
   app.use(errorHandlerMiddleware);
 
+  return app;
+};
+
+const setupBackend = () => {
+  const app = createApp();
+
   app.listen(Env.getEnvironmentVariable("PORT"), () => {
     Logger.info(MESSAGES.SERVER.STARTING_SUCCESS);
   });
 };
 
 export default setupBackend;
+
+export const App = createApp();

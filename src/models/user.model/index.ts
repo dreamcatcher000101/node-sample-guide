@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { model, Schema, Model, Document } from "mongoose";
 
-import { JWT_SECRET, JWT_EXPIRE } from "../../config";
+import { JWT_SECRET, JWT_EXPIRE, DATABASE } from "../../config";
 
 interface IUser {
   fullname?: string;
@@ -27,7 +27,12 @@ interface IUserModel extends Document, IUser {
 }
 
 const UserSchema: Schema = new Schema<IUserModel>({
-  fullname: { type: String, required: true, minlength: 6 },
+  fullname: {
+    type: String,
+    required: true,
+    minlength: DATABASE.USER.MIN_FULLNAME,
+    maxlength: DATABASE.USER.MAX_FULLNAME,
+  },
   email: { type: String, required: true },
   password: { type: String, required: true, select: false },
   createdAt: { type: Date, select: false },

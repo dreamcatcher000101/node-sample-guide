@@ -2,13 +2,7 @@ import { faker } from "@faker-js/faker";
 
 import setupTestDB from "../../setups/testDB.setup";
 
-import {
-  createUser,
-  readUsers,
-  updateUser,
-  deleteUser,
-  readCertainUser,
-} from ".";
+import { createUser, readUsers, updateUser, deleteUser } from ".";
 
 import { IUser } from "../../models";
 
@@ -27,6 +21,7 @@ describe("User Service", () => {
 
   test("should create and return new user", async () => {
     const newUser = await createUser(user);
+    expect(newUser).toHaveProperty("_id");
     expect(newUser).toHaveProperty("fullname");
     expect(newUser).toHaveProperty("email");
     expect(newUser.password).toBeUndefined();

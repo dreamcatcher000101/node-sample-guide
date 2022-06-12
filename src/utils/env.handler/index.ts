@@ -66,6 +66,10 @@ class Env {
   isProduction(): boolean {
     return this.getEnvironment() === "production";
   }
+
+  isTest(): boolean {
+    return this.getEnvironment() === "test";
+  }
 }
 
 export default new Env();
