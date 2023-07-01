@@ -1,15 +1,14 @@
-import { NextFunction, Request, Response } from 'express';
-import { ValidationError, validationResult } from 'express-validator';
+import { NextFunction, Request, Response } from "express";
+import { ValidationError, validationResult } from "express-validator";
 
-import { ArgumentValidationError } from 'errors';
+import { ArgumentValidationError } from "errors";
 
-import { AuthRequest } from 'types';
+import { AuthRequest } from "types";
 
 export const errorHandlerWrapper = (
   func: (
-    req:
-      | Request<unknown, unknown, unknown, unknown>
-      | AuthRequest<unknown, unknown, unknown, unknown>,
+    req: // | AuthRequest<unknown, unknown, unknown, unknown>
+    Request,
     res: Response,
     next: NextFunction
   ) => void
@@ -19,7 +18,7 @@ export const errorHandlerWrapper = (
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         throw new ArgumentValidationError(
-          'Invalid Arguments',
+          "Invalid Arguments",
           errors.array().map((value: ValidationError) => value.msg)
         );
       }
