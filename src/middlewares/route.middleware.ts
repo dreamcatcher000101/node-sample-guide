@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 
-import { Logger, Env } from "../utils";
+import { Logger, Env } from "utils";
 
-const routeMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const routeMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   Logger.group({
     title: "New Request",
     descriptions: [
@@ -29,5 +33,3 @@ const routeMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   next();
 };
-
-export default routeMiddleware;

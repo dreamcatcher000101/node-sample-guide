@@ -1,4 +1,2 @@
-import databaseSetup from "./database.setup";
-import backendSetup from "./backend.setup";
-
-export { databaseSetup, backendSetup };
+export * from "./backend.setup";
+export * from "./database.setup";

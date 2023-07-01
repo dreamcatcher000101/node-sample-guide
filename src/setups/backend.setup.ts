@@ -1,17 +1,17 @@
 import cors from "cors";
 import express, { Express } from "express";
 
-import routes from "../routes";
+import routes from "routes";
 
-import { routeMiddleware } from "../middlewares";
+import { routeMiddleware } from "middlewares";
 
-import { MESSAGES } from "../consts";
+import { MESSAGES } from "consts";
 
-import { ROUTE_VERSION } from "../config";
+import { ROUTE_VERSION } from "config";
 
-import { Logger, Env } from "../utils";
+import { Logger, Env } from "utils";
 
-const backendSetup = () => {
+export const backendSetup = () => {
   const app: Express = express();
 
   // middlewares
@@ -26,5 +26,3 @@ const backendSetup = () => {
     Logger.info(MESSAGES.SERVER.STARTING_SUCCESS);
   });
 };
-
-export default backendSetup;

@@ -1,10 +1,4 @@
-import {
-  model,
-  Schema,
-  Model,
-  Document,
-  PreSaveMiddlewareFunction,
-} from "mongoose";
+import { model, Schema, Document } from "mongoose";
 
 interface IUser extends Document {
   fullName: string;
@@ -18,8 +12,6 @@ const UserSchema: Schema = new Schema<IUser>({
   password: { type: String, required: true },
 });
 
-const UserModel: Model<IUser> = model("User", UserSchema);
+export const UserModel = model("User", UserSchema);
 
 export { IUser };
-
-export default UserModel;

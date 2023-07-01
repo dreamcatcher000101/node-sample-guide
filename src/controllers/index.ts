@@ -1,3 +1,1 @@
-import * as userController from "./user.controller";
-
-export { userController };
+export * as userController from "./user.controller";

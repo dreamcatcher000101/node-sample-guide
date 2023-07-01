@@ -1,8 +1,8 @@
-import { databaseSetup, backendSetup } from "./setups";
+import { databaseSetup, backendSetup } from "setups";
 
-import { MESSAGES } from "./consts";
+import { MESSAGES } from "consts";
 
-import { Logger, Env } from "./utils";
+import { Logger, Env } from "utils";
 
 const setupServer = async () => {
   // initialize multiple environments

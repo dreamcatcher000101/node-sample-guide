@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-class Env {
+class EnvController {
   private requiredKeys = ["PORT", "MONGODB_URL"];
 
   init() {
@@ -61,4 +61,4 @@ class Env {
   }
 }
 
-export default new Env();
+export const Env = new EnvController();

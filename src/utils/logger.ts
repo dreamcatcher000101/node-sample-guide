@@ -1,7 +1,7 @@
 import path from "path";
-import { Logger } from "logger";
+import { Logger as DefaultLogger } from "logger";
 
-import Env from "./env.handler";
+import { Env } from "./env.handler";
 
 type DescriptionInfo = {
   description: string;
@@ -14,14 +14,14 @@ type GroupLog = {
 };
 
 class ServerLogger {
-  private fileLogger: Logger;
+  private fileLogger: DefaultLogger;
 
   constructor() {
     const loggerFilePath = path.join(__dirname, "../../logs/server.log");
-    this.fileLogger = new Logger(loggerFilePath);
+    this.fileLogger = new DefaultLogger(loggerFilePath);
   }
 
-  private log(...descriptions: string[]) {
+  private log(...descriptions: any[]) {
     if (Env.isProduction()) {
       this.fileLogger.log("info", ...descriptions);
     } else {
@@ -29,7 +29,7 @@ class ServerLogger {
     }
   }
 
-  info(description: string) {
+  info(description: any) {
     if (Env.isProduction()) {
       this.fileLogger.info(description);
     } else {
@@ -37,7 +37,7 @@ class ServerLogger {
     }
   }
 
-  error(description: string) {
+  error(description: any) {
     if (Env.isProduction()) {
       this.fileLogger.error(description);
     } else {
@@ -45,7 +45,7 @@ class ServerLogger {
     }
   }
 
-  fatal(description: string) {
+  fatal(description: any) {
     if (Env.isProduction()) {
       this.fileLogger.fatal(description);
     } else {
@@ -64,4 +64,4 @@ class ServerLogger {
 
 export { GroupLog };
 
-export default new ServerLogger();
+export const Logger = new ServerLogger();

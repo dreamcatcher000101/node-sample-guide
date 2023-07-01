@@ -1,4 +1,2 @@
-import * as SERVER from "./server";
-import * as DATABASE from "./database";
-
-export { SERVER, DATABASE };
+export * as SERVER from "./server";
+export * as DATABASE from "./database";
