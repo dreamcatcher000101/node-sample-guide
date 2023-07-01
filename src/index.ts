@@ -11,14 +11,16 @@ const setupServer = async () => {
   try {
     await databaseSetup();
     Logger.info(MESSAGES.DATABASE.CONNECTION_SUCCESS);
-  } catch (error: any) {
+  } catch (error: unknown) {
     Logger.info(MESSAGES.DATABASE.CONNECTION_FAILURE);
     Logger.error(error);
+
+    process.exit(0);
   }
 
   try {
     await backendSetup();
-  } catch (error: any) {
+  } catch (error: unknown) {
     Logger.info(MESSAGES.SERVER.STARTING_FAILURE);
     Logger.error(error);
   }
