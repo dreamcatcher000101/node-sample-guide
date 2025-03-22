@@ -9,25 +9,5 @@ userRouter.post(
   userController.createUserValidator(),
   userController.createUser
 );
-userRouter.get(
-  "/user",
-  userController.readUsersValidator(),
-  userController.readUsers
-);
-userRouter.put(
-  "/user:id",
-  userController.updateUserValidator(),
-  userController.updateUser
-);
-userRouter.delete(
-  "/user:id",
-  userController.deleteUserValidator(),
-  userController.deleteUser
-);
-userRouter.get(
-  "/user/:id",
-  userController.readUserValidator(),
-  userController.readUser
-);
 
 export { userRouter };

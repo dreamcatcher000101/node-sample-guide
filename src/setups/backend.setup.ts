@@ -15,6 +15,10 @@ import { ROUTE_VERSION } from "config";
 
 import { Logger, Env } from "utils";
 
+import session from "express-session";
+
+import { v4 as uuid } from "uuid";
+
 export const backendSetup = () => {
   const app: Express = express();
 
@@ -25,6 +29,18 @@ export const backendSetup = () => {
 
   // authentication
   // app.use(authenticationMiddleware);
+
+  app.use(
+    session({
+      secret: "keyboard cat",
+      resave: true,
+      saveUninitialized: true,
+      cookie: { secure: true },
+      genid: function (req) {
+        return uuid(); // use UUIDs for session IDs
+      },
+    })
+  );
 
   // routes
   app.use(`/api/${ROUTE_VERSION}/`, routes);

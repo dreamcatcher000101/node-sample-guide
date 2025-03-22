@@ -1,30 +1,26 @@
-import { Request, Response } from "express";
-import { body } from "express-validator";
+import Express, { Response } from "express";
 import httpStatus from "http-status";
 
 import { errorHandlerWrapper } from "utils";
 
-// type Params = unknown;
-// type ResBody = unknown;
-// type ReqBody = {
-//   fullname: string;
-//   email: string;
-//   password: string;
-// };
-// type ReqQuery = unknown;
-
 export const createUserValidator = () => {
-  return [
-    body("fullname").notEmpty().withMessage("User full name is required"),
-    body("email").notEmpty().withMessage("Email is required"),
-    body("password").notEmpty().withMessage("Password is required"),
-  ];
+  return [];
 };
 
-const createUserHandler = async (req: Request, res: Response) => {
-  const { fullname, email, password } = req.body;
+export interface Request extends Express.Request {
+  session: any;
+}
 
-  res.status(httpStatus.OK).json({ fullname, email, password });
+let count = 0;
+
+const createUserHandler = async (req: Request, res: Response) => {
+  console.log("session:", req.session);
+
+  req.session.userId = ++count;
+
+  console.log("session:", req.session);
+
+  res.status(httpStatus.OK).json({});
 };
 
 export const createUser = errorHandlerWrapper(createUserHandler);

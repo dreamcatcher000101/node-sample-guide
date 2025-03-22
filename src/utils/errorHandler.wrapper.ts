@@ -8,7 +8,7 @@ import { AuthRequest } from "types";
 export const errorHandlerWrapper = (
   func: (
     req: // | AuthRequest<unknown, unknown, unknown, unknown>
-    Request,
+    any,
     res: Response,
     next: NextFunction
   ) => void
